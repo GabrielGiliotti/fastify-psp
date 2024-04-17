@@ -41,7 +41,9 @@ class TransactionsService {
                 method: e.method,
                 name: e.name,
                 card_number: e.card_number,
-                valid: e.valid
+                valid: e.valid,
+                payableId: e.payableId,
+                payable: e.payable
             };
 
             transactionDtoList.push(transactionDto);

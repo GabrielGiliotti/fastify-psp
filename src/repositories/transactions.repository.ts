@@ -6,6 +6,7 @@ import { prisma } from "../database/prisma-client";
 import { ITransactionsRepository } from "./itransactions.repository";
 import { PayablesRepository } from "./payables.repository";
 import { Decimal } from '@prisma/client/runtime/library';
+import { Payable } from '@prisma/client';
 
 class TransactionsRepository implements ITransactionsRepository
 {
@@ -15,7 +16,32 @@ class TransactionsRepository implements ITransactionsRepository
 
     async getAll(): Promise<Transaction[]> 
     {
-        return await prisma.transaction.findMany();
+        let list: Transaction[] = [];
+
+        const transactions = await prisma.transaction.findMany();
+
+        for(const t of transactions) 
+        {
+            const payable = await this._payableRepo.getById(t.payableId);
+
+            const transaction: Transaction = 
+            {
+                amount: t.amount,
+                description: t.description,
+                method: t.method,
+                name: t.name,
+                cpf: t.cpf,
+                card_number: t.card_number,
+                valid: t.valid,
+                cvv: t.cvv,
+                payableId: t.payableId,
+	            payable: payable as Payable,
+            }
+
+            list.push(transaction);
+        }
+
+        return list;
     }
     
     async getById(id: number): Promise<Transaction | null> 
@@ -26,31 +52,28 @@ class TransactionsRepository implements ITransactionsRepository
             }
         }) || null;
 
-        const payable = await prisma.payable.findFirst({
-            where: {
-                id: transaction?.payableId
-            }
-        }) || null;
-
-        
-        if(!transaction || !payable)
-            throw new Error("Treta"); 
-            
-        const result: Transaction = 
+        if(transaction) 
         {
-            amount: transaction.amount,
-            description: transaction.description,
-            method: transaction.method,
-            name: transaction.name,
-            cpf: transaction.cpf,
-            card_number: transaction.card_number,
-            valid:transaction.valid,
-            cvv: transaction.cvv,
-            payableId: payable.id,
-            payable: payable,
+            const payable = await this._payableRepo.getById(transaction?.payableId as number);
+
+            const result: Transaction = 
+            {
+                amount: transaction.amount,
+                description: transaction.description,
+                method: transaction.method,
+                name: transaction.name,
+                cpf: transaction.cpf,
+                card_number: transaction.card_number,
+                valid:transaction.valid,
+                cvv: transaction.cvv,
+                payableId: payable?.id as number,
+                payable: payable as Payable,
+            }
+
+            return result;
         }
 
-        return result;
+        throw new Error("Treta");  
     }
     
     async create(dto: TransactionCreateDto): Promise<Transaction> 
@@ -128,23 +151,22 @@ class TransactionsRepository implements ITransactionsRepository
             }
         }) || null;
 
-        await prisma.transaction.delete({
-            where: {
-                id: transaction?.id
-            }
-        }).catch(() => {
-            throw new Error(`Transaction ${id} already deleted.`)
-        });
+        if(transaction) 
+        {
+            await prisma.transaction.delete({
+                where: {
+                    id: transaction?.id
+                }
+            }).catch(() => {
+                throw new Error(`Transaction ${id} already deleted.`)
+            });
+    
+            await this._payableRepo.delete(transaction.payableId);
 
-        await prisma.payable.delete({
-            where: {
-                id: transaction?.payableId
-            }
-        }).catch(() => {
-            throw new Error(`Payable ${transaction?.payableId} already deleted.`)
-        });
-        
-        return `Transaction ${id} deleted succesfully.`;
+            return `Transaction ${id} deleted succesfully.`;
+        }
+
+        throw new Error(`Error on deleting transaction`);
     }
 }
 

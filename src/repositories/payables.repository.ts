@@ -42,6 +42,19 @@ class PayablesRepository implements IPayablesRepository
             }
         })
     }
+
+    async delete(id: number): Promise<string> {
+
+        await prisma.payable.delete({
+            where: {
+                id
+            }
+        }).catch(() => {
+            throw new Error(`Payable ${id} already deleted.`)
+        });
+        
+        return `Payable ${id} deleted succesfully.`;
+    }
 }
 
 export { PayablesRepository };
