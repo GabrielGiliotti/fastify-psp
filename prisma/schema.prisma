@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  amount      Int      
+  description String   
+  method      String   
+  name        String   
+  cpf         String   
+  card_number String?  
+  valid       String?  
+  cvv         String?  
+  payableId   Int       @unique
+  payable     Payable?  @relation(fields: [payableId], references: [id])
+
+  @@map("Transactions")
+}
+
+model Payable {
+  id            Int          @id @default(autoincrement())
+	status        String
+  fee           Decimal      @db.Decimal(10,5)
+  payment_date  DateTime
+  transaction   Transaction? 
+
+  @@map("Payables")
+}
