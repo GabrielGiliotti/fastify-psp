@@ -44,7 +44,7 @@ class TransactionsService {
                 card_number: e.card_number,
                 valid: e.valid,
                 payableId: e.payableId,
-                payable: e.payable
+                payable: e.payable ? e.payable : undefined
             };
 
             transactionDtoList.push(transactionDto);
@@ -67,7 +67,7 @@ class TransactionsService {
                 name: result.name,
                 card_number: result.card_number,
                 valid: result.valid,
-                payable: result.payable
+                payable: result.payable ? result.payable : undefined
             }
             return obj;
         }

@@ -10,6 +10,6 @@ export interface Transaction {
 	valid?: string | null,
 	cvv?: string | null,
 	payableId: number,
-	payable?: Payable,
+	payable?: Payable | null,
 }
 

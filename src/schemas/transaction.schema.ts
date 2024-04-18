@@ -68,3 +68,4 @@ const bodyJsonSchema = {
 export const transactionSchema = {
     body: bodyJsonSchema,
 }
+
