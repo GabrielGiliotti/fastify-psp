@@ -1,6 +1,6 @@
-import { TransactionDto } from './../DTOs/transaction.dto';
-import { TransactionCreateDto } from './../DTOs/transaction.create.dto';
-import { TransactionsRepository } from "../repositories/transactions.repository";
+import { TransactionDto } from '../DTOs/transaction.dto';
+import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
+import { TransactionsRepository } from "../Repositories/transactions.repository";
 import { TransactionUpdateDto } from '../DTOs/transaction.update.dto';
 
 class TransactionsService {

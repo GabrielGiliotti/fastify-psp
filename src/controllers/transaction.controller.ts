@@ -1,14 +1,9 @@
-import { transactionSchema } from './../schemas/transaction.schema';
+import { transactionSchema } from '../Schemas/transaction.schema';
 import { FastifyInstance } from 'fastify';
-import { TransactionsService } from '../services/transaction.service';
+import { TransactionsService } from '../Services/transaction.service';
 import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { TransactionUpdateDto } from '../DTOs/transaction.update.dto';
-import { ajv } from '../configs/ajv.config';
-
-interface IQuerystring {
-    skip: string;
-    take: string;
-}
+import { ajv } from '../Configs/ajv.config';
 
 export async function TransactionController(fastify: FastifyInstance) {
 

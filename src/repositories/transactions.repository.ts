@@ -1,12 +1,12 @@
-import { PayableCreateDto } from './../DTOs/payable.create.dto';
+import { PayableCreateDto } from '../DTOs/payable.create.dto';
 import { TransactionCreateDto } from "../DTOs/transaction.create.dto";
 import { TransactionUpdateDto } from "../DTOs/transaction.update.dto";
 import { Transaction } from "../Models/transaction";
-import { prisma } from "../database/prisma-client";
-import { ITransactionsRepository } from "./itransactions.repository";
-import { PayablesRepository } from "./payables.repository";
+import { prisma } from "../Database/prisma-client";
+import { ITransactionsRepository } from "../Interfaces/itransactions.repository";
 import { Decimal } from '@prisma/client/runtime/library';
 import { Payable } from '@prisma/client';
+import { PayablesRepository } from './payables.repository';
 
 class TransactionsRepository implements ITransactionsRepository
 {

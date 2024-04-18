@@ -1,6 +1,6 @@
 import fastify, { FastifyInstance } from "fastify";
-import { TransactionController } from "./controllers/transaction.controller";
-import { HomeController } from "./controllers/home.controller";
+import { TransactionController } from "./Controllers/transaction.controller";
+import { HomeController } from "./Controllers/home.controller";
 
 const app: FastifyInstance = fastify({ logger: true });
 

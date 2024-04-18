@@ -1,8 +1,8 @@
 import { Decimal } from "@prisma/client/runtime/library";
 import { PayableCreateDto } from "../DTOs/payable.create.dto";
 import { Payable } from "../Models/payable";
-import { prisma } from "../database/prisma-client";
-import { IPayablesRepository } from "./ipayables.repository";
+import { prisma } from "../Database/prisma-client";
+import { IPayablesRepository } from "../Interfaces/ipayables.repository";
 
 class PayablesRepository implements IPayablesRepository
 {
