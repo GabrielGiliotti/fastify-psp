@@ -5,7 +5,7 @@ import { Transaction } from "../Models/transaction";
 export interface ITransactionsRepository {
     create(dto: TransactionCreateDto): Promise<Transaction>;
     getById(id: number): Promise<Transaction | null>;
-    getAll(): Promise<Transaction[]>;
+    getAll(skip: number, take: number): Promise<Transaction[]>;
     update(id: number, dto: TransactionUpdateDto): Promise<Transaction | null>;
     delete(id: number): Promise<string>;
 }

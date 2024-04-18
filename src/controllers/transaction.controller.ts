@@ -5,6 +5,11 @@ import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { TransactionUpdateDto } from '../DTOs/transaction.update.dto';
 import { ajv } from '../configs/ajv.config';
 
+interface IQuerystring {
+    skip: string;
+    take: string;
+}
+
 export async function TransactionController(fastify: FastifyInstance) {
 
     const _transactionService = new TransactionsService();
@@ -39,10 +44,20 @@ export async function TransactionController(fastify: FastifyInstance) {
         }
     });
 
-    fastify.get('/', async (_, reply) => {
+    fastify.get<{ Querystring: IQuerystring }>('/', async (req, reply) => {
         try 
         {
-            const data = await _transactionService.getAll();
+            let {skip, take} = req.query;
+
+            if(!skip)
+                skip = "0";
+
+            if(!take)
+                take = "5";
+
+            console.log(skip);
+
+            const data = await _transactionService.getAll(parseInt(skip), parseInt(take));
             return reply.status(200).send(data);
         } 
         catch (error) 

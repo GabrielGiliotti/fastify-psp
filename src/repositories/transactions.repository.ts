@@ -14,11 +14,14 @@ class TransactionsRepository implements ITransactionsRepository
 
     constructor() { this._payableRepo = new PayablesRepository(); }
 
-    async getAll(): Promise<Transaction[]> 
+    async getAll(skip: number, take: number): Promise<Transaction[]> 
     {
         let list: Transaction[] = [];
 
-        const transactions = await prisma.transaction.findMany();
+        const transactions = await prisma.transaction.findMany({
+            skip: skip,
+            take: take
+        });
 
         for(const t of transactions) 
         {

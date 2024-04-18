@@ -27,9 +27,9 @@ class TransactionsService {
         return obj;
     }
 
-    async getAll(): Promise<TransactionDto[]> 
+    async getAll(skip: number, take: number): Promise<TransactionDto[]> 
     {
-        const transactions = await this._transactionRepo.getAll();
+        const transactions = await this._transactionRepo.getAll(skip, take);
 
         let transactionDtoList: TransactionDto[] = [];
 
