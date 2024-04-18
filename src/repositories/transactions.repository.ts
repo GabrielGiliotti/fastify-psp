@@ -7,6 +7,7 @@ import { ITransactionsRepository } from "../Interfaces/itransactions.repository"
 import { Decimal } from '@prisma/client/runtime/library';
 import { Payable } from '@prisma/client';
 import { PayablesRepository } from './payables.repository';
+import { SaldoDto } from '../DTOs/saldo.dto';
 
 class TransactionsRepository implements ITransactionsRepository
 {
@@ -77,6 +78,21 @@ class TransactionsRepository implements ITransactionsRepository
         }
 
         throw new Error("Treta");  
+    }
+
+    async getSaldoByNameOrCpf(name?: string, cpf?: string): Promise<SaldoDto> 
+    {
+        
+        const transactions = await prisma.transaction.findMany({
+            where: {
+                OR: [{ name }, { cpf }],
+            }
+        });
+                
+        const available = transactions.filter(({method}) => method === 'pix').reduce((sum, record) => sum + record.amount, 0);
+        const waiting_funds = transactions.filter(({method}) => method === 'credit_card').reduce((sum, record) => sum + record.amount, 0);
+
+        return { available: available, waiting_funds: waiting_funds };
     }
     
     async create(dto: TransactionCreateDto): Promise<Transaction> 

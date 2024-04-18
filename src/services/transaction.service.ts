@@ -2,6 +2,7 @@ import { TransactionDto } from '../DTOs/transaction.dto';
 import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { TransactionsRepository } from "../Repositories/transactions.repository";
 import { TransactionUpdateDto } from '../DTOs/transaction.update.dto';
+import { SaldoDto } from '../DTOs/saldo.dto';
 
 class TransactionsService {
     
@@ -71,6 +72,11 @@ class TransactionsService {
             return obj;
         }
         return null;
+    }
+
+    async getSaldoByNameOrCpf(name?: string, cpf?: string): Promise<SaldoDto> 
+    {
+        return await this._transactionRepo.getSaldoByNameOrCpf(name, cpf);
     }
 
     async update(id: number, data: TransactionUpdateDto): Promise<TransactionDto | null> 

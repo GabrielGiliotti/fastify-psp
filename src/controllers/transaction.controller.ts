@@ -3,7 +3,9 @@ import { FastifyInstance } from 'fastify';
 import { TransactionsService } from '../Services/transaction.service';
 import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { TransactionUpdateDto } from '../DTOs/transaction.update.dto';
+import { IPagination } from '../Interfaces/ipagination.query';
 import { ajv } from '../Configs/ajv.config';
+import { ISaldoQuery } from '../Interfaces/isaldo.query';
 
 export async function TransactionController(fastify: FastifyInstance) {
 
@@ -39,7 +41,7 @@ export async function TransactionController(fastify: FastifyInstance) {
         }
     });
 
-    fastify.get<{ Querystring: IQuerystring }>('/', async (req, reply) => {
+    fastify.get<{ Querystring: IPagination }>('/', async (req, reply) => {
         try 
         {
             let {skip, take} = req.query;
@@ -50,9 +52,20 @@ export async function TransactionController(fastify: FastifyInstance) {
             if(!take)
                 take = "5";
 
-            console.log(skip);
-
             const data = await _transactionService.getAll(parseInt(skip), parseInt(take));
+            return reply.status(200).send(data);
+        } 
+        catch (error) 
+        {
+            return reply.send(error);
+        }
+    });
+
+    fastify.get<{ Querystring: ISaldoQuery }>('/saldo', async (req, reply) => {
+        try 
+        {
+            let {name, cpf} = req.query;
+            const data = await _transactionService.getSaldoByNameOrCpf(name, cpf);
             return reply.status(200).send(data);
         } 
         catch (error) 
