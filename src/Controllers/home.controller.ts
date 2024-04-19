@@ -6,5 +6,6 @@ export async function HomeController(fastify: FastifyInstance) {
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
         return { home: `API started at ${today.toLocaleString()}` }
+        // return { root: true }
     })
 }
