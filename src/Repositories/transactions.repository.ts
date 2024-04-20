@@ -1,13 +1,12 @@
-import { PayableCreateDto } from '../DTOs/payable.create.dto';
 import { TransactionCreateDto } from "../DTOs/transaction.create.dto";
 import { TransactionUpdateDto } from "../DTOs/transaction.update.dto";
 import { Transaction } from "../Models/transaction";
 import { prisma } from "../Database/prisma-client";
 import { ITransactionsRepository } from "../Interfaces/itransactions.repository";
-import { Decimal } from '@prisma/client/runtime/library';
 import { Payable } from '@prisma/client';
 import { PayablesRepository } from './payables.repository';
 import { SaldoDto } from '../DTOs/saldo.dto';
+import PayableExtension from '../Extensions/payable.extension';
 
 class TransactionsRepository implements ITransactionsRepository
 {
@@ -96,33 +95,19 @@ class TransactionsRepository implements ITransactionsRepository
     }
     
     async create(dto: TransactionCreateDto): Promise<Transaction> 
-    {
-        let cardNumber = dto.card_number?.substring(10,16);
-        cardNumber = cardNumber?.replace(cardNumber.substring(0,2), "**");
-        
-        const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
-
-        let payableDto: PayableCreateDto = 
-        {
-            status: dto.method === "pix" ? "paid" : "waiting_funds",
-            fee: dto.method === "pix" ? new Decimal((2.99/100)) : new Decimal((8.99/100)),
-            payment_date: dto.method === "pix" ? today : new Date(today.setDate(today.getDate() + 15))
-        }
-                
+    {            
+        let payableDto = PayableExtension.DefinePayable(dto.method);
         const payable = await this._payableRepo.create(payableDto);
-
-        const taxedAmount = Math.ceil(dto.amount * (1 - parseFloat(payable.fee.toString())));
 
         const transaction = await prisma.transaction.create({
             include: { payable: true },
             data : {
-                amount: taxedAmount,
+                amount: PayableExtension.GetTaxedAmount(dto.amount, payable.fee),
                 description: dto.description,
                 method: dto.method,
                 name: dto.name,
                 cpf: dto.cpf,
-                card_number: cardNumber,
+                card_number: dto.card_number ? PayableExtension.OverrideCardNumber(dto.card_number) : null,
                 valid: dto.valid,
                 cvv: dto.cvv,
                 payableId: payable.id,
@@ -136,8 +121,10 @@ class TransactionsRepository implements ITransactionsRepository
 
     async update(id: number, dto: TransactionUpdateDto): Promise<Transaction | null> {
 
-        let cardNumber = dto.card_number?.substring(10,16);
-        cardNumber = cardNumber?.replace(cardNumber.substring(0,2), "**");
+        const payableUpdated = await this._payableRepo.update(id, dto.method);
+
+        if(!payableUpdated)
+            throw new Error("Error when updating payable");
         
         const transaction = await prisma.transaction.update({
             where: {
@@ -145,19 +132,17 @@ class TransactionsRepository implements ITransactionsRepository
             },
             include: { payable: true },
             data: {
+                amount: PayableExtension.GetTaxedAmount(dto.amount, payableUpdated.fee),
                 method: dto.method,
 	            name: dto.name,
 	            cpf: dto.cpf,
-	            card_number: cardNumber,
+	            card_number: dto.card_number ? PayableExtension.OverrideCardNumber(dto.card_number) : null,
 	            valid: dto.valid,
-	            cvv: dto.cvv 
+	            cvv: dto.cvv
             }
         });
 
-        const payable = await this._payableRepo.update(transaction.payableId, transaction.method);
-
-        if(payable)
-            transaction.payable = payable;
+        transaction.payable = payableUpdated;
 
         return transaction;
     }

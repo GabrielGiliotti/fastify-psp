@@ -1,4 +1,4 @@
-import { transactionSchema } from '../Schemas/transaction.schema';
+import { createTransactionSchema } from '../Schemas/create.transaction.schema';
 import { FastifyInstance } from 'fastify';
 import { TransactionsService } from '../Services/transaction.service';
 import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
@@ -6,6 +6,7 @@ import { TransactionUpdateDto } from '../DTOs/transaction.update.dto';
 import { IPagination } from '../Interfaces/ipagination.query';
 import { ajv } from '../Configs/ajv.config';
 import { ISaldoQuery } from '../Interfaces/isaldo.query';
+import { updateTransactionSchema } from '../Schemas/update.transaction.schema';
 
 export async function TransactionController(fastify: FastifyInstance) {
 
@@ -13,7 +14,7 @@ export async function TransactionController(fastify: FastifyInstance) {
 
     fastify.post<{ Body: TransactionCreateDto }>('/', 
     { 
-        schema: transactionSchema,
+        schema: createTransactionSchema,
         validatorCompiler: ({ schema }) => ajv.compile(schema), schemaErrorFormatter: (errors) => new Error(errors[0].message)
     } , 
     async (req, reply) => {
@@ -74,7 +75,12 @@ export async function TransactionController(fastify: FastifyInstance) {
         }
     });
 
-    fastify.put<{ Body: TransactionUpdateDto ; Params: { id: string }}>('/:id', async (req, reply) => {
+    fastify.put<{ Body: TransactionUpdateDto ; Params: { id: string }}>('/:id', 
+    {
+        schema: updateTransactionSchema,
+        validatorCompiler: ({ schema }) => ajv.compile(schema), schemaErrorFormatter: (errors) => new Error(errors[0].message)
+    },
+    async (req, reply) => {
         try 
         {
             const {id} = req.params;

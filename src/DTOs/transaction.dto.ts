@@ -7,6 +7,5 @@ export interface TransactionDto {
 	name: string,
 	card_number?: string | null,
 	valid?: string | null,
-	payableId?: number,
 	payable?: Payable
 }

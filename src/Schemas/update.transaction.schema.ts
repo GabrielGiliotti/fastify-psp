@@ -1,9 +1,8 @@
 const bodyJsonSchema = {
     type: 'object',
-    required: ['amount', 'description', 'method', 'name', 'cpf', 'card_number'],
+    required: ['amount', 'method', 'name', 'cpf', 'card_number'],
     properties: {
       amount: { type: 'integer', minimum: 0 },
-      description: { type: 'string', minLength: 3 },
       method: {
         type: 'string',
         enum: ['pix', 'credit_card'],
@@ -54,7 +53,6 @@ const bodyJsonSchema = {
     errorMessage: {
       properties: {
         amount: 'amount must be an integer',
-        description: 'description must have at least 3 characters',
         method: 'the only allowed methods are pix and credit_card',
         name: 'name must have at least 3 characters',
         cpf: 'cpf must not contain dots or dashes. Ex: 12345678900',
@@ -65,7 +63,6 @@ const bodyJsonSchema = {
     },
 }
   
-export const transactionSchema = {
+export const updateTransactionSchema = {
     body: bodyJsonSchema,
 }
-

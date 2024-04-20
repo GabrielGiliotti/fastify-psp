@@ -1,15 +1,15 @@
-import { Decimal } from "@prisma/client/runtime/library";
 import { PayableCreateDto } from "../DTOs/payable.create.dto";
 import { Payable } from "../Models/payable";
 import { prisma } from "../Database/prisma-client";
 import { IPayablesRepository } from "../Interfaces/ipayables.repository";
+import PayableExtension from "../Extensions/payable.extension";
 
 class PayablesRepository implements IPayablesRepository
 {
     async create(dto: PayableCreateDto): Promise<Payable> 
     {
         return await prisma.payable.create({
-            data : {
+            data: {
                 status: dto.status,
                 fee: dto.fee,
                 payment_date: dto.payment_date
@@ -28,17 +28,16 @@ class PayablesRepository implements IPayablesRepository
 
     async update(id: number, method: string): Promise<Payable | null> {
 
-        const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
+        const payable = PayableExtension.DefinePayable(method);
         
         return await prisma.payable.update({
             where: {
                 id
             },
             data: {
-                status: method === "pix" ? "paid" : "waiting_funds",
-                fee: method === "pix" ? new Decimal((2.99/100)) : new Decimal((8.99/100)),
-                payment_date: method === "pix" ? today : new Date(today.setDate(today.getDate() + 15))
+                status: payable.status,
+                fee: payable.fee,
+                payment_date: payable.payment_date
             }
         })
     }

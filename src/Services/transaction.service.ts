@@ -22,7 +22,6 @@ class TransactionsService {
             name: result.name,
             card_number: result.card_number,
             valid: result.valid,
-            payableId: result.payable?.id
         }
 
         return obj;
@@ -43,7 +42,6 @@ class TransactionsService {
                 name: e.name,
                 card_number: e.card_number,
                 valid: e.valid,
-                payableId: e.payableId,
                 payable: e.payable ? e.payable : undefined
             };
 

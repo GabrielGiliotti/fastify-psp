@@ -1,4 +1,5 @@
 export interface TransactionUpdateDto {
+	amount: number,
 	method: string,
 	name: string,
 	cpf: string,
