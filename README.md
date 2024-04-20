@@ -6,7 +6,7 @@ PSP (Payment Service Provider) é uma tecnologia em forma serviço para viabiliz
 
 Para instalação e execução do projeto em sua máquina local, siga o seguinte passo a passo:
 
-* Faça um clone deste repositório na branch ````main```;
+* Faça um clone deste repositório na branch ```main```;
 * Instale em sua máquina o banco de dados [MySQL](https://www.mysql.com/downloads/);
 * Execute o comando ```npm i``` para instalar as dependencias do projeto;
 * Adicione na pasta raiz do projeto o arquivo ```.env```, substituindo as informações entre ```<>``` pelas suas configurações do banco de dados, com a seguinte váriavel de ambiente:
@@ -53,3 +53,10 @@ Para modelagem simplificada dos dados consideramos apenas duas entidades:
 Para ver o payable associado a uma transação basta fazer uma requisição ```GET``` relacionada aos endpoints de ```Get Transactions```  ou ```Get Transaction by Id```.
 
 Os payables tem uma relação de 1 para 1com as transações, então sempre que uma transação é criada, seu respectivo payable também é registrado.
+
+## Próximos passos
+
+* Inclusão dos testes automatizados utilizando Jest;
+* Executar a aplicação em container Docker;
+* Inclusão de um Modelo de usuários permitindo criar parcelas de payables (de um usuario) em função de transactions realizadas;
+* Implementação de Token JWT para realização de consulta dos dados com maior segurança;
