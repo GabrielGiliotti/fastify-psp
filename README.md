@@ -53,3 +53,10 @@ Para modelagem simplificada dos dados consideramos apenas duas entidades:
 Para ver o payable associado a uma transação basta fazer uma requisição ```GET``` relacionada aos endpoints de ```Get Transactions```  ou ```Get Transaction by Id```.
 
 Os payables tem uma relação de 1 para 1com as transações, então sempre que uma transação é criada, seu respectivo payable também é registrado.
+
+## Próximos passos
+
+* Inclusão dos testes automatizados utilizando Jest;
+* Executar a aplicação em container Docker;
+* Inclusão de um Modelo de usuários permitindo criar parcelas de payables (de um usuario) em função de transactions realizadas;
+* Implementação de Token JWT para realização de consulta dos dados com maior segurança;
