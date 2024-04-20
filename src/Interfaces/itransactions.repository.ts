@@ -1,3 +1,4 @@
+import { MessageDto } from "../DTOs/message.dto";
 import { SaldoDto } from "../DTOs/saldo.dto";
 import { TransactionCreateDto } from "../DTOs/transaction.create.dto";
 import { TransactionUpdateDto } from "../DTOs/transaction.update.dto";
@@ -8,6 +9,6 @@ export interface ITransactionsRepository {
     getById(id: number): Promise<Transaction | null>;
     getAll(skip: number, take: number): Promise<Transaction[]>;
     update(id: number, dto: TransactionUpdateDto): Promise<Transaction | null>;
-    delete(id: number): Promise<string>;
+    delete(id: number): Promise<MessageDto>;
     getSaldoByNameOrCpf(name: string, cpf: string): Promise<SaldoDto>;
 }

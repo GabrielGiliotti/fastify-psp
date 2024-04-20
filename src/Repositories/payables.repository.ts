@@ -3,6 +3,7 @@ import { Payable } from "../Models/payable";
 import { prisma } from "../Database/prisma-client";
 import { IPayablesRepository } from "../Interfaces/ipayables.repository";
 import PayableExtension from "../Extensions/payable.extension";
+import { MessageDto } from "../DTOs/message.dto";
 
 class PayablesRepository implements IPayablesRepository
 {
@@ -42,7 +43,7 @@ class PayablesRepository implements IPayablesRepository
         })
     }
 
-    async delete(id: number): Promise<string> {
+    async delete(id: number): Promise<MessageDto> {
 
         await prisma.payable.delete({
             where: {
@@ -52,7 +53,7 @@ class PayablesRepository implements IPayablesRepository
             throw new Error(`Payable ${id} already deleted.`)
         });
         
-        return `Payable ${id} deleted succesfully.`;
+        return { message: `Payable ${id} deleted succesfully.` };
     }
 }
 

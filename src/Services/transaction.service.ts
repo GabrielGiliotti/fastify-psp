@@ -3,6 +3,7 @@ import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { TransactionsRepository } from "../Repositories/transactions.repository";
 import { TransactionUpdateDto } from '../DTOs/transaction.update.dto';
 import { SaldoDto } from '../DTOs/saldo.dto';
+import { MessageDto } from '../DTOs/message.dto';
 
 class TransactionsService {
     
@@ -97,7 +98,7 @@ class TransactionsService {
         return null;
     }
 
-    async delete(id: number): Promise<string> 
+    async delete(id: number): Promise<MessageDto> 
     {
         return await this._transactionRepo.delete(id);
     }
