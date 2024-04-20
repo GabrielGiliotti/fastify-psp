@@ -7,6 +7,7 @@ import { Payable } from '@prisma/client';
 import { PayablesRepository } from './payables.repository';
 import { SaldoDto } from '../DTOs/saldo.dto';
 import PayableExtension from '../Extensions/payable.extension';
+import { MessageDto } from "../DTOs/message.dto";
 
 class TransactionsRepository implements ITransactionsRepository
 {
@@ -147,7 +148,7 @@ class TransactionsRepository implements ITransactionsRepository
         return transaction;
     }
 
-    async delete(id: number): Promise<string> {
+    async delete(id: number): Promise<MessageDto> {
 
         const transaction = await prisma.transaction.findFirst({
             where: {
@@ -167,7 +168,7 @@ class TransactionsRepository implements ITransactionsRepository
     
             await this._payableRepo.delete(transaction.payableId);
 
-            return `Transaction ${id} deleted succesfully.`;
+            return { message: `Transaction ${id} deleted succesfully.` };
         }
 
         throw new Error(`Error on deleting transaction`);
