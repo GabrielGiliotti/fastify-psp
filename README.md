@@ -25,7 +25,7 @@ Para realizar requisições nos endpoints, recomendamos o uso da ferramenta Post
 * ```Delete Transaction```: rota para deletar uma transação e seu pagamento associado. Realiza um hard delete;
 * ```Get Transaction by Id```: retorna uma transação pelo seu id no banco de dados. O payable associado recebe o mesmo valor de Id. Ex: transctionId: 1 - payableId: 1;
 * ```Get Transactions```: retorna todas as transações criadas, com paginação. O parametro ```skip``` define quantas transações você deseja ignorar e o parametro ```take``` define quantas transações serão retonadas a partir do intervalo de skip;
-* ````Get Saldo```: retorna o saldo acumulado de payables com mesmo ```name``` ou ```cpf```. 
+* ```Get Saldo```: retorna o saldo acumulado de payables com mesmo ```name``` ou ```cpf```. 
     * Se nenhuma informação seja passada, retorna 0 para os campos de resposta. 
     * Se os parametros ```name``` ou ```cpf``` estiverem errados, também retorna 0 para os campos. 
     * Se ambos os campos forem passados juntos, porém com informações de pessoas diferentes, realiza a soma de todos os payables relacionada as informações. 
