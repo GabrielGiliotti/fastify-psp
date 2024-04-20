@@ -6,7 +6,7 @@ PSP (Payment Service Provider) é uma tecnologia em forma serviço para viabiliz
 
 Para instalação e execução do projeto em sua máquina local, siga o seguinte passo a passo:
 
-* Faça um clone deste repositório na branch ````main```;
+* Faça um clone deste repositório na branch ```main```;
 * Instale em sua máquina o banco de dados [MySQL](https://www.mysql.com/downloads/);
 * Execute o comando ```npm i``` para instalar as dependencias do projeto;
 * Adicione na pasta raiz do projeto o arquivo ```.env```, substituindo as informações entre ```<>``` pelas suas configurações do banco de dados, com a seguinte váriavel de ambiente:
