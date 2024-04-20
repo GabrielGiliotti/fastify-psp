@@ -18,7 +18,7 @@ Para instalação e execução do projeto em sua máquina local, siga o seguinte
 
 ## Endpoints
 
-Para realizar requisições nos endpoints, recomendamos o uso da ferramenta Postman, onde disponibilizamos nesse repositório o arquivo ```Fastify PSP.postman_collection``` para ser importado na ferramenta.
+Para realizar requisições nos endpoints, recomendamos fortemente o uso da ferramenta Postman, onde disponibilizamos nesse repositório o arquivo ```Fastify PSP.postman_collection``` para ser importado na ferramenta.
 
 * ```Create Transaction```: rota para criar uma nova transação com seu pagamento associado;
 * ```Update Transaction```: rota para atualizar uma transação e seu pagamento associado;
