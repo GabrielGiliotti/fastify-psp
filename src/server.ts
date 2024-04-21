@@ -1,19 +1,17 @@
-import fastify, { FastifyInstance } from "fastify";
 import { TransactionController } from "./Controllers/transaction.controller";
 import { HomeController } from "./Controllers/home.controller";
+import app from "./index"
+    
+const server = app();
 
-const app: FastifyInstance = fastify({ logger: false });
-
-app.register(HomeController, {
+server.register(HomeController, {
     prefix: '/'
 })
 
-app.register(TransactionController, {
+server.register(TransactionController, {
     prefix: '/transactions'
 })
 
-app.listen({ port: 3100 }, async () => {
+server.listen({ port: 3100 }, async () => {
     console.log("Server is running on port 3100");
 });
-
-export { app };

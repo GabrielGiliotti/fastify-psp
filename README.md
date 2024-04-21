@@ -60,3 +60,8 @@ Os payables tem uma relação de 1 para 1com as transações, então sempre que 
 * Executar a aplicação em container Docker;
 * Inclusão de um Modelo de usuários permitindo criar parcelas de payables (de um usuario) em função de transactions realizadas;
 * Implementação de Token JWT para realização de consulta dos dados com maior segurança;
+
+## Links relacionados aos testes
+
+(Jest Config)[https://duncanlew.medium.com/unit-testing-typescript-with-jest-part-one-f39d2392d0f4]
+(Jest Tests)[https://richiemccoll.com/writing-tests-with-fastify-and-node-test-runner]

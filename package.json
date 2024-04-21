@@ -1,7 +1,7 @@
 {
   "name": "fastify-psp",
   "version": "1.0.0",
-  "description": "",
+  "description": "PSP (Payment Service Provider) é uma tecnologia em forma serviço para viabilização de transações no ambiente online, de forma que todo o processo seja realizado de forma segura e performática. Nesse repositório apresentamos uma versão simplificada dessa tecnologia, de forma que seja possível registrar pagamentos de produtos e serviços prestados e obter uma contabilização dos lucros recebidos e à receber.",
   "main": "index.js",
   "type": "module",
   "engines": {
@@ -15,8 +15,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
+    "jest": "^29.7.0",
     "prisma": "^5.12.1",
+    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5"
