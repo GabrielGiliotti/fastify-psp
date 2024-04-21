@@ -63,5 +63,5 @@ Os payables tem uma relação de 1 para 1com as transações, então sempre que 
 
 ## Links relacionados aos testes
 
-(Jest Config)[https://duncanlew.medium.com/unit-testing-typescript-with-jest-part-one-f39d2392d0f4]
-(Jest Tests)[https://richiemccoll.com/writing-tests-with-fastify-and-node-test-runner]
+* [Jest Config](https://duncanlew.medium.com/unit-testing-typescript-with-jest-part-one-f39d2392d0f4)
+* [Jest Tests](https://richiemccoll.com/writing-tests-with-fastify-and-node-test-runner)
