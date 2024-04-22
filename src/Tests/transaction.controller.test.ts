@@ -3,7 +3,7 @@ import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { createTransactionSchema } from '../Schemas/create.transaction.schema';
 import app  from '../index'
 
-describe('Home controller inject Test', () => {
+describe('Transaction controller Tests', () => {
     
     // Configuration
     let address;
