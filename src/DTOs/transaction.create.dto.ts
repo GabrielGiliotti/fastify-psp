@@ -4,7 +4,7 @@ export interface TransactionCreateDto {
 	method: string,
 	name: string,
 	cpf: string,
-	card_number?: string,
-	valid?: string,
-	cvv?: string
+	card_number?: string | null,
+	valid?: string | null,
+	cvv?: string | null
 }
