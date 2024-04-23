@@ -5,6 +5,7 @@ import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { createTransactionSchema } from '../Schemas/create.transaction.schema';
 import app  from '../index'
 import PayableExtension from '../Extensions/payable.extension';
+import { IPagination } from '../Interfaces/ipagination.query';
 
 describe('Transaction controller Tests', () => {
     
@@ -184,7 +185,9 @@ describe('Transaction controller Tests', () => {
         },
     ];
 
-    build.get("/transactions", async (_, reply) => reply.status(200).send(transactionList));
+    build.get("/transactions", async (_, reply) => {
+        reply.status(200).send(transactionList);
+    });
 
     it("GET status 200", async () => {
         
