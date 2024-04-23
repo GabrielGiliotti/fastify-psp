@@ -1,20 +1,20 @@
 import { Decimal } from "@prisma/client/runtime/library";
-import { PayableCreateDto } from "../DTOs/payable.create.dto";
+import { PayableDto } from "../DTOs/payable.dto";
 
 class PayableExtension 
 {
-    static DefinePayable(method: string) {
+    static DefinePayable(method: string) : PayableDto {
         
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
 
         if(method === "pix") 
         {
-            return { status: "paid", fee: new Decimal((2.99/100)), payment_date: today } as PayableCreateDto;
+            return { status: "paid", fee: new Decimal((2.99/100)).toString(), payment_date: today.toString() };
         }
         else 
         {
-            return { status: "waiting_funds", fee: new Decimal((8.99/100)), payment_date: new Date(today.setDate(today.getDate() + 15))} as PayableCreateDto;
+            return { status: "waiting_funds", fee: new Decimal((8.99/100)).toString(), payment_date: new Date(today.setDate(today.getDate() + 15)).toString()};
         }
     }
 

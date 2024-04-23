@@ -1,7 +1,10 @@
+import { Decimal } from '@prisma/client/runtime/library';
+import { TransactionDto } from './../DTOs/transaction.dto';
 import { ajv } from '../Configs/ajv.config';
 import { TransactionCreateDto } from '../DTOs/transaction.create.dto';
 import { createTransactionSchema } from '../Schemas/create.transaction.schema';
 import app  from '../index'
+import PayableExtension from '../Extensions/payable.extension';
 
 describe('Transaction controller Tests', () => {
     
@@ -17,19 +20,6 @@ describe('Transaction controller Tests', () => {
     afterAll(async () => {
         await build.close();
     });
-
-    // Mock da requisicao GET
-    // build.get("/", async () => {});
-
-    // it("GET status 200", async () => {
-        
-    //     const res = await build.inject({
-    //         method: 'GET',
-    //         url: "/",
-    //     });
-
-    //     expect(res.statusCode.toString()).toMatch('200');
-    // });
 
     // Mock da requisicao POST
     build.post("/transactions",
@@ -170,5 +160,44 @@ describe('Transaction controller Tests', () => {
         expect(res.statusCode).toStrictEqual(400);
         expect(obj).toStrictEqual(generalErrorSchemaValidationResponse);
     });
+
+
+    // Mock da requisicao GET
+    let transactionList: TransactionDto[] = [
+        {
+            amount: 500,
+            description: "Airpods",
+            method: "pix",
+            name: "Gabriel Giliotti",
+            card_number: null,
+            valid: null,
+            payable: PayableExtension.DefinePayable("pix")
+        },
+        {
+            amount: 150,
+            description: "Airpods",
+            method: "credit_card",
+            name: "Gabriel Giliotti",
+            card_number: "7004700570067007",
+            valid: "1227",
+            payable: PayableExtension.DefinePayable("credit_card")
+        },
+    ];
+
+    build.get("/transactions", async (_, reply) => reply.status(200).send(transactionList));
+
+    it("GET status 200", async () => {
+        
+        const res = await build.inject({
+            method: 'GET',
+            url: "/transactions",
+        });
+
+        const obj = JSON.parse(res.body);
+
+        expect(res.statusCode).toStrictEqual(200);
+        expect(obj).toStrictEqual(transactionList);
+    });
+
 });
 

@@ -1,4 +1,4 @@
-import { PayableCreateDto } from "../DTOs/payable.create.dto";
+import { PayableDto } from "../DTOs/payable.dto";
 import { Payable } from "../Models/payable";
 import { prisma } from "../Database/prisma-client";
 import { IPayablesRepository } from "../Interfaces/ipayables.repository";
@@ -7,7 +7,7 @@ import { MessageDto } from "../DTOs/message.dto";
 
 class PayablesRepository implements IPayablesRepository
 {
-    async create(dto: PayableCreateDto): Promise<Payable> 
+    async create(dto: PayableDto): Promise<Payable> 
     {
         return await prisma.payable.create({
             data: {
